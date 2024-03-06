@@ -1,5 +1,5 @@
 #pragma once
-enum colors  {red , blue , green, purple};
+enum colors  {RED , BLUE , GREEN, PURPLE};
 
 
 class candy
@@ -7,7 +7,7 @@ class candy
 private:
     colors _color;
 public:
-    candy();
+    candy(colors col);
     ~candy();
     colors getColor();
     void setColor(colors  col);

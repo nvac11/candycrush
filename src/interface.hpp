@@ -2,17 +2,13 @@
 
 class interface
 {
-private:
-    /* data */
 public:
     interface(/* args */);
     ~interface();
+    void afficherscore();
+    void menu();
+    void arreter();
+    void sauvegarder();
+    void relancer();
+    void affichergrid(); 
 };
-
-interface::interface(/* args */)
-{
-}
-
-interface::~interface()
-{
-}

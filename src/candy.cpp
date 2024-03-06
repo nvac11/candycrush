@@ -1,8 +1,9 @@
 #include "candy.hpp"
 
 
-candy::candy()
+candy::candy(colors col)
 {
+    _color = col;
 }
 
 candy::~candy()
