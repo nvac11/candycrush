@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <string>
+#include "grid.hpp"
 
 class interface
 {
@@ -11,10 +13,10 @@ public:
 
     interface();
     ~interface();
-    void afficherscore(sf::RenderWindow *window);
+    void afficherscore(sf::RenderWindow *window, std::string score) ;
     void menu(); // TODO
     void arreter(); // TODO
     void sauvegarder(); // TODO
     void relancer(); // TODO
-    void affichergrid(); // TODO
+    void affichergrid(sf::RenderWindow *window, grid *grid);
 };

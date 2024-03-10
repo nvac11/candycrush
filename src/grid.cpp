@@ -1,9 +1,19 @@
 #include "grid.hpp"
+#include <random>
+colors getRandomEnumColor() {
+    
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(0, static_cast<int>(colors::COUNT) - 1);
+    
+    return static_cast<colors>(dist(gen));
+}
 
 grid::grid(int size) : _grid(size, vector<candy*>(size, nullptr)) {
+
     for (int i=0; i < _grid.size(); i++){
         for (int j=0; j < _grid.size(); j++){
-            _grid[i][j] = new candy(BLUE); 
+            _grid[i][j] = new candy(getRandomEnumColor());
         }
     }
 }

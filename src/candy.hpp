@@ -1,5 +1,5 @@
 #pragma once
-enum colors {RED , BLUE , GREEN, PURPLE};
+enum colors {RED , BLUE , GREEN, PURPLE, COUNT};
 
 
 class candy
