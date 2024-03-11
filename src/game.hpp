@@ -4,7 +4,12 @@
 class game
 {
     private:
-        /* data */
+        struct data
+        {
+            int score;
+            int remainingplay;
+        };
+        
     public:
         game();
         ~game();
