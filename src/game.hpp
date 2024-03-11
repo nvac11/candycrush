@@ -6,6 +6,13 @@ class game
     private:
         /* data */
     public:
-        game(/* args */);
+        game();
         ~game();
+
+        int getscore();
+        int getnbcoup();
+        void augmenterscore();
+        void coupsuivant();
+
+
 };
