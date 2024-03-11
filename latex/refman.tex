@@ -115,6 +115,24 @@
   \newunicodechar{²}{${}^{2}$}% Superscript two
   \newunicodechar{³}{${}^{3}$}% Superscript three
 
+% Hyperlinks (required, but should be loaded last)
+\ifpdf
+  \usepackage[pdftex,pagebackref=true]{hyperref}
+\else
+  \ifxetex
+    \usepackage[pagebackref=true]{hyperref}
+  \else
+    \usepackage[ps2pdf,pagebackref=true]{hyperref}
+  \fi
+\fi
+
+\hypersetup{%
+  colorlinks=true,%
+  linkcolor=blue,%
+  citecolor=blue,%
+  unicode%
+}
+
 % Custom commands
 \newcommand{\clearemptydoublepage}{%
   \newpage{\pagestyle{empty}\cleardoublepage}%
@@ -132,6 +150,10 @@
 \raggedbottom
 
 % Titlepage & ToC
+\hypersetup{pageanchor=false,
+             bookmarksnumbered=true,
+             pdfencoding=unicode
+            }
 \pagenumbering{alph}
 \begin{titlepage}
 \vspace*{7cm}
@@ -146,31 +168,13 @@
 \tableofcontents
 \clearemptydoublepage
 \pagenumbering{arabic}
+\hypersetup{pageanchor=true}
 
 %--- Begin generated contents ---
 \chapter{candycrush}
 \label{md__r_e_a_d_m_e}
+\Hypertarget{md__r_e_a_d_m_e}
 \input{md__r_e_a_d_m_e}
-\chapter{Class Index}
-\input{annotated}
-\chapter{File Index}
-\input{files}
-\chapter{Class Documentation}
-\input{classcandy}
-\input{classgame}
-\input{classgrid}
-\input{classinterface}
-\chapter{File Documentation}
-\input{_r_e_a_d_m_e_8md}
-\input{candy_8cpp}
-\input{candy_8hpp}
-\input{game_8cpp}
-\input{game_8hpp}
-\input{grid_8cpp}
-\input{grid_8hpp}
-\input{interface_8cpp}
-\input{interface_8hpp}
-\input{main_8cpp}
 %--- End generated contents ---
 
 % Index
