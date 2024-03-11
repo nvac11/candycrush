@@ -29,7 +29,7 @@ int main()
         window.clear();
         i.affichergrid(&window, &newgrid);
         i.afficherscore(&window, to_string(k++));
-
+        cout << "test"<< endl;
         window.display();
     }
 
