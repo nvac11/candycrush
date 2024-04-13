@@ -63,7 +63,8 @@ void interface::affichergrid(sf::RenderWindow *window, grid *grid) {
 }
 
 
-MenuOption interface::affichermenu(sf::RenderWindow *window, IOevent *ioevent) {
+MenuOption interface::affichermenu(sf::RenderWindow *window, IOevent *ioevent) 
+{
     sf::Color textColorW = sf::Color::White;
     sf::Color textColorR = sf::Color::Red;
 
@@ -112,11 +113,12 @@ MenuOption interface::affichermenu(sf::RenderWindow *window, IOevent *ioevent) {
                 break;
             default:
                 button.setString("Unknown Option");
-                currentOption = MenuOption::Unknown;
+                currentOption = MenuOption::None;
                 break;
         }
 
         button.setCharacterSize(textSize);
+        /*
         if (isInsideBox(ioevent->getMousePos(), sf::Vector2f(x + 10, y), 300, 20)) {
             button.setFillColor(textColorR);
             if (ioevent->isMouseClicked()) {
@@ -128,8 +130,9 @@ MenuOption interface::affichermenu(sf::RenderWindow *window, IOevent *ioevent) {
         button.setPosition(x, y);
         window->draw(button);
         y += textSize + spacing;
-    }
-
+    
+    */
     // If no option is clicked, return a default value
-    return MenuOption::Unknown;
+    }
+    return MenuOption::None;
 }

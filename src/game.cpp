@@ -49,8 +49,10 @@ game::game(sf::RenderWindow *window) {
             sf::Event event;
             while (_window->pollEvent(event)) {
                     
-                sf::Vector2i mousePos = sf::Mouse::getPosition();
-                _IOevent->setMousePos(mousePos);
+                sf::Vector2i mousePos = sf::Mouse::getPosition(*_window); 
+                sf::Vector2f worldMousePos = _window->mapPixelToCoords(mousePos); 
+                _IOevent->setMousePos(worldMousePos); 
+
                 if (event.type == sf::Event::MouseButtonPressed) {
                     if (event.mouseButton.button == sf::Mouse::Left) {
                         _IOevent->setMouseClickedLeft(true);
@@ -78,6 +80,8 @@ game::game(sf::RenderWindow *window) {
                 _window->close();
                 break;
             default:
+                _window->close();
+
                 break;
         }
 
@@ -100,6 +104,8 @@ game::game(sf::RenderWindow *window) {
             case MenuOption::None:
                 break;
             default:
+                gameState = NONE;
+            
                 break;
             }
         _window->display();

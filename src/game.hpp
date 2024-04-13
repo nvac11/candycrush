@@ -28,6 +28,7 @@ public:
     int getNbCoup();
     void incrScore();
     void incrMoves();
+    int getScore();
     void arreter(); // TODO
     void update();
     void load(std::string filename);

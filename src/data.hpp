@@ -1,3 +1,4 @@
 struct Data{
-    sco
-}
+    int score;
+    int remainingmoves;
+};

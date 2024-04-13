@@ -12,8 +12,6 @@ void IOevent::setMousePos(sf::Vector2f coords){
     _MouseCoord = coords;
 }
 
-
-
 bool IOevent::isMouseClickedLeft(){        
     return _LeftMouseClicked;
 }

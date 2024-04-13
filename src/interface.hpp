@@ -16,7 +16,7 @@ public:
     interface();
     ~interface();
     void afficherscore(sf::RenderWindow *window, std::string score) ;
-    MenuOption interface::affichermenu(sf::RenderWindow *window, IOevent * ioevent);
+    MenuOption affichermenu(sf::RenderWindow *window, IOevent * ioevent);
 
     void menu(); // TODO
     void arreter(); // TODO
