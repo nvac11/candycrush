@@ -2,8 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include "grid.hpp"
+#include "IOevent.hpp"
 
-enum MenuOption { Continue, PlayNewGame, Save, Load, Quit, Unknown };
+enum MenuOption { Continue, PlayNewGame, Save, Load, Quit, None };
 class interface
 {
 private:
@@ -15,7 +16,7 @@ public:
     interface();
     ~interface();
     void afficherscore(sf::RenderWindow *window, std::string score) ;
-    MenuOption interface::affichermenu(sf::RenderWindow *window, IOevent * ioevent) {
+    MenuOption interface::affichermenu(sf::RenderWindow *window, IOevent * ioevent);
 
     void menu(); // TODO
     void arreter(); // TODO

@@ -9,7 +9,6 @@ enum State {INMENU, INGAME, NONE};
 class game {
 private:
     Data gameData; // Use Data as a member
-
     grid* _grid;
     interface* _interface;
     IOevent* _IOevent; 
@@ -19,12 +18,10 @@ public:
     game(sf::RenderWindow* window);
     ~game();
     
-    // Accessor methods for gameData
     int getScore() const { return gameData.score; }
     int getRemainingMoves() const { return gameData.remainingmoves; }
     void setScore(int score) { gameData.score = score; }
     void setRemainingMoves(int remainingMoves) { gameData.remainingmoves = remainingMoves; }
-    
     grid getgrid();
     void afficherpartie(sf::RenderWindow* win);
     void start();

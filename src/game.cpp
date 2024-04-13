@@ -8,7 +8,7 @@
 #include "interface.hpp"
 
 
-    game::game(sf::RenderWindow *window) {
+game::game(sf::RenderWindow *window) {
         _window = window;
         _IOevent = new IOevent(_window);
         _grid = new grid();

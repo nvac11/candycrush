@@ -1,3 +1,4 @@
+#include <SFML/Graphics.hpp>
 #include "IOevent.hpp"
 IOevent::IOevent(sf::RenderWindow * window)
 {
