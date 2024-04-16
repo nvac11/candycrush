@@ -11,7 +11,6 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
     size_t n = 10;
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Example");
     
     vector<vector<int>> g(n, vector<int>(n, 0));
     
@@ -28,44 +27,8 @@ int main(int argc, char const *argv[])
     while(gamerunning) {
         cout << "score : "<< score << endl;
         
-        // Clear the window
-        window.clear();
 
-        // Draw the grid
-        affichergrid(&window, g);
-
-        // Handle events
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            switch (event.type)
-            {
-                case sf::Event::Closed:
-                    gamerunning = false;  // Exit the game loop
-                    break;
-
-                case sf::Event::MouseButtonPressed:
-                    cout << "mouse pressed" << endl;
-                    if (event.mouseButton.button == sf::Mouse::Left)
-                    {
-                        // Get mouse position
-                        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                        
-                        // Create and draw a rectangle at mouse position
-                        sf::RectangleShape rectangle(sf::Vector2f(50.f, 50.f));
-                        rectangle.setPosition(mousePos.x, mousePos.y);
-                        rectangle.setFillColor(sf::Color::Yellow);
-                        window.draw(rectangle);
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        // Display the window contents
-        window.display();
+        displayMat2d(g);
     
         pair<pair<int, int>, pair<int, int>> coupcoup = getCoup();
         

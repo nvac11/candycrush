@@ -22,8 +22,8 @@ void affichergrid(sf::RenderWindow *window, vector<vector<int>> g) {
     for (int i = 0; i < g.size(); i++) {
         for (int j = 0; j < g[i].size(); j++) { 
             sf::RectangleShape rectangle(sf::Vector2f(50.f, 50.f));
-            rectangle.setPosition(j * 60.f, i * 60.f);  // Switched the order and adjusted the positioning
-            rectangle.setFillColor(getColorForValue(g[i][j]));  // Assume getColorForValue is a function that returns SFML color based on the value
+            rectangle.setPosition(j * 60.f, i * 60.f);  
+            rectangle.setFillColor(getColorForValue(g[i][j]));  
             rectangles.push_back(rectangle);   
         }
     }

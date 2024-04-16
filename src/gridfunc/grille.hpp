@@ -10,18 +10,20 @@ using namespace std;
 class Grid : public vector<vector<int>>
 {
 private:
-    int n;  // Size of the grid
+    int n;  
     int score;
 public:
-    Grid(int size, int score);  // Constructor
-    ~Grid();  // Destructor
+    Grid(int size, int score, vector<vector<int>> ret) : n(size), score(score), vector<vector<int>>(ret) {};
+    ~Grid(){};
+    Grid(const Grid& other) : n(other.n), score(other.score), vector<vector<int>>(other){};
     bool isValid(pair<int, int> c1, pair<int, int> c2);
-    Grid destruct(int & score);
+    Grid destruct();
     Grid fall();
     Grid fill();
     bool canBeDestruct();
     bool isSolvable();
     void display();
+    Grid swap(pair<int, int> c1, pair<int, int> c2);
 };
 
 

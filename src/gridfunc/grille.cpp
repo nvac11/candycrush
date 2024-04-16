@@ -8,57 +8,182 @@
 using namespace std;
 
 
-Grid::Grid(int size, int score ) : n(size), score(score),  vector<vector<int>>(n, vector<int>(n, 0)){}
-Grid::~Grid(){}
 bool Grid::isValid(pair<int, int> c1, pair<int, int> c2)
 {
+    
     if (abs(c1.first - c2.first) + abs(c1.second - c2.second) != 1) {
         return false;
     }
 
-    int temp = (*this)[c1.first][c1.second];
-    (*this)[c1.first][c1.second] = (*this)[c2.first][c2.second];
-    (*this)[c2.first][c2.second] = temp;
-    return canBeDestruct();
+    Grid tmp = swap(c1,c2);
+    return tmp.canBeDestruct();
 }
+Grid Grid::swap(pair<int, int> c1, pair<int, int> c2) {
+        Grid ret(*this);  
+        int temp = (ret)[c1.first][c1.second];
+        (ret)[c1.first][c1.second] = (ret)[c2.first][c2.second];
+        (ret)[c2.first][c2.second] = temp;
+        return ret;
+    }
 
 Grid Grid::destruct()
 {
+    vector<vector<bool>> mask(n, vector<bool>(n, false));
+    vector<vector<int>> ret(n, vector<int>(n, 0)); 
 
-}
+    for (size_t i = 1; i < n - 1; i++) {
+        for (size_t j = 0; j < n; j++) {
+            if ((*this)[i][j] == (*this)[i + 1][j] && (*this)[i][j] == (*this)[i - 1][j]) {
+                mask[i][j] = true;
+                mask[i+1][j] = true;
+                mask[i-1][j] = true;
+            }
+        }
+    }
+
+    // checking if they are 3 next to each other on each columns
+    for (size_t i = 0; i < n; i++) {
+        for (size_t j = 1; j < n - 1; j++) {
+            if ((*this)[i][j] == (*this)[i][j + 1] && (*this)[i][j] == (*this)[i][j - 1]) {
+                mask[i][j] = true;
+                mask[i][j+1] = true;
+                mask[i][j-1] = true;
+            }
+        }
+    }
+    // populate current grid and calculate score
+    for (size_t i = 0; i < n; i++) {
+        for (size_t j = 0; j < n; j++) {
+            if (mask[i][j]) {
+                score++;
+                ret[i][j] = 0;
+            } else {
+                ret[i][j] = (*this)[i][j];
+            }
+        }
+    }
+    
+    return Grid(n,score,ret);
+};
 
 Grid Grid::fall()
 {
-    // Implementation
+    int n = this->size();
+    vector<vector<int>> ret(n, vector<int>(n, 0)); 
+    
+    for (size_t j = 0; j < n; j++) {
+        int pos = n - 1; // position to place the next non-zero element
+        // shift elements downward
+        for (int i = n - 1; i >= 0; i--) {
+            if ((*this)[i][j] != 0) {
+                ret[pos][j] = (*this)[i][j];
+                pos--;
+            }
+        }
+        // fill zeros
+        for (int i = pos; i >= 0; i--) {
+            ret[i][j] = 0;
+        }
+    }
+    return Grid(n, score, ret); // return a new Grid object
 }
 
 Grid Grid::fill()
 {
-    // Implementation
+    int n = this->size();
+    Grid ret = Grid(*this);   
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            if ((*this)[i][j] == 0){
+                ret[i][j] = getRandomInt(COLORMINID, COLORMAXID);
+            } else {
+                ret[i][j] = (*this)[i][j];
+            }
+        }
+    }
+    return ret; // return a new Grid object
 }
 
 bool Grid::canBeDestruct()
 {
-    // Implementation
+    int n = this->size();
+    vector<vector<bool>> mask(n, vector<bool>(n, false));
+    
+    // checking if they are 3 next to each other on each lines
+    for (size_t i = 1; i < n - 1; i++) {
+        for (size_t j = 0; j < n; j++) {
+            if ((*this)[i][j] == (*this)[i + 1][j] && (*this)[i][j] == (*this)[i - 1][j]) {
+                mask[i][j] = true;
+                mask[i+1][j] = true;
+                mask[i-1][j] = true;
+            }
+        }
+    }
+
+    // checking if they are 3 next to each other on each columns
+    for (size_t i = 0; i < n; i++) {
+        for (size_t j = 1; j < n - 1; j++) {
+            if ((*this)[i][j] == (*this)[i][j + 1] && (*this)[i][j] == (*this)[i][j - 1]) {
+                mask[i][j] = true;
+                mask[i][j+1] = true;
+                mask[i][j-1] = true;
+            }
+        }
+    }
+
+    // check if any destructible candies are left
+    for (size_t i = 0; i < n; i++) {
+        for (size_t j = 0; j < n; j++) {
+            if (mask[i][j]) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
-bool Grid::isSolvable()
-{
-    // Implementation
+bool Grid::isSolvable(){
+    Grid ret(*this);  
+
+    for (size_t i = 0; i < n - 1; i++) {
+        for (size_t j = 0; j < n; j++) {
+            ret = ret.swap(make_pair(i, j), make_pair(i + 1, j));
+
+            if (canBeDestruct()) {
+                return true;
+            }
+            
+            ret = ret.swap(make_pair(i, j), make_pair(i + 1, j));
+        }
+    }
+
+    for (size_t i = 0; i < n; i++) {
+        for (size_t j = 0; j < n - 1; j++) {
+            ret = ret.swap(make_pair(i, j), make_pair(i, j + 1));
+
+            if (canBeDestruct()) {
+                return true;
+            }
+
+            ret = ret.swap(make_pair(i, j), make_pair(i, j + 1));
+        }
+    }
+
+    return false;
 }
+
+
 
 void Grid::display(){
+    cout << "score is : " << score << endl; 
     for (size_t i = 0; i < this->size(); i++){
         for (size_t j = 0; j < this->size(); j++){
-            cout << g.at(i).at(j) << "  ";
+            cout << (*this).at(i).at(j) << "  ";
         }
         cout << endl;
     }
     cout << endl;
 }
-
-
-
 
 
 int getRandomInt(int min, int max)
