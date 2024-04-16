@@ -25,17 +25,22 @@ int getRandomInt(int min, int max)
     return distrib(gen);  
 }
 
-std::pair<int, int> getCoup() {
-    int a = 3;
-    int b = 4;
-    return {a, b};
+pair<pair<int, int>, pair<int, int>> getCoup() {
+    pair<int, int> c1 ;
+    pair<int, int> c2 ;
+
+    cout << "entrer coup 1 :" << endl;
+    cin >> c1.first;
+    cin >> c1.second;
+    cout << "entrer coup 2 :" << endl;
+    cin >> c2.first;
+    cin >> c2.second;
+    return {c1,c2};
 }
 
 void displayMat2d(vector<vector<int>> g){
-    for (size_t i = 0; i < g.size(); i++)
-    {
-        for (size_t j = 0; j < g.size(); j++)
-        {
+    for (size_t i = 0; i < g.size(); i++){
+        for (size_t j = 0; j < g.size(); j++){
             cout << g.at(i).at(j) << "  ";
         }
         cout << endl;
@@ -55,7 +60,6 @@ vector<vector<int>> destructGrid(vector<vector<int>> g, int& score) {
                 mask[i][j] = true;
                 mask[i+1][j] = true;
                 mask[i-1][j] = true;
-                
             }
         }
     }
@@ -169,7 +173,7 @@ bool isValid(vector<vector<int>> g, pair<int, int> c1, pair<int, int> c2) {
     int n = g.size();
 
     if (abs(c1.first - c2.first) + abs(c1.second - c2.second) != 1) {
-        return false; 
+        return false;
     }
 
     swap(g[c1.first][c1.second], g[c2.first][c2.second]);
@@ -178,7 +182,7 @@ bool isValid(vector<vector<int>> g, pair<int, int> c1, pair<int, int> c2) {
 }
 
 
-
+/*
 void test(vector<vector<int>> g){
     g = fillGrid(g);
     score = 0;
@@ -197,7 +201,7 @@ void test(vector<vector<int>> g){
         }
     }
     
-    /*
+    
     //not solvable 
     int c = 0;
     for (size_t i = 0; i < g.size(); i++){
@@ -206,7 +210,6 @@ void test(vector<vector<int>> g){
             c++;
         }
     }
-    */
     
     cout << "\n";
     displayMat2d(g);
@@ -217,16 +220,45 @@ void test(vector<vector<int>> g){
     displayMat2d(g);
     
 }
-
+*/
 
 int main(int argc, char const *argv[])
 {
     size_t n = 10;
     vector<vector<int>> g(n, vector<int>(n, 0));
-    pair<int, int> result = getCoup();
+    
+    // Fill and display the grid
     g = fillGrid(g);
+       for (size_t i = 0; i < g.size(); i++){
+        for (size_t j = 0; j < g.size(); j++){
+            g[i][j] = (i + j)%2 +1;
+        }
+    }
+    score = 0;
+    bool gamerunning = true; 
+    while(gamerunning) {
+        cout << "score : "<< score << endl;
+        //displayMat2d(g);
     
-    displayMat2d(g);
-    
+        pair<pair<int, int>, pair<int, int>> coupcoup = getCoup();
+        
+        pair<int, int> c1 = coupcoup.first;
+        pair<int, int> c2 = coupcoup.second;
+
+        if (isValid(g, c1, c2)) {
+            swap(g[c1.first][c1.second], g[c2.first][c2.second]);
+            do {
+                g = destructGrid(g, score);
+                g = fallGrid(g);
+                g = fillGrid(g);
+            } while(canBeDestruct(g));
+            if (!isSolvable(g)) {
+                gamerunning = false;
+            }
+        } else {
+            cout << "Invalid swap. Please try again." << endl;
+        }
+    }
+
     return 0;
 }
