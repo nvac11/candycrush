@@ -177,7 +177,7 @@ bool isValid(vector<vector<int>> g, pair<int, int> c1, pair<int, int> c2) {
     }
 
     swap(g[c1.first][c1.second], g[c2.first][c2.second]);
-    displayMat2d(g);
+    //displayMat2d(g);
     return canBeDestruct(g);
 }
 
@@ -238,7 +238,7 @@ int main(int argc, char const *argv[])
     bool gamerunning = true; 
     while(gamerunning) {
         cout << "score : "<< score << endl;
-        //displayMat2d(g);
+        displayMat2d(g);
     
         pair<pair<int, int>, pair<int, int>> coupcoup = getCoup();
         
