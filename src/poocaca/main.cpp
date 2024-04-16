@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <unordered_map>
-#include <utility>  // for std::pair
-
+#include <utility>  
+#include "../gridfunc/grille.hpp"
 class EventController {
 private:
     std::unordered_map<int, std::pair<int, int>> clickedIndices;
@@ -21,7 +21,7 @@ public:
                         if (rectangles[i].getGlobalBounds().contains(mousePos)) {
                             if (clickedIndices.size() < 2) {
                                 if (clickedIndices.find(i) == clickedIndices.end()) {
-                                    int rowIndex = i / 3;  // Assuming 3 columns in your grid
+                                    int rowIndex = i / 3;  
                                     int colIndex = i % 3;
                                     clickedIndices[i] = std::make_pair(rowIndex, colIndex);
                                     rectangles[i].setFillColor(sf::Color::White);
@@ -58,7 +58,7 @@ public:
             std::pair<int, int> secondPair = it->second;
             return std::make_pair(firstPair, secondPair);
         }
-        return std::make_pair(std::make_pair(-1, -1), std::make_pair(-1, -1));  // Return invalid pair if not two clicked
+        return std::make_pair(std::make_pair(-1, -1), std::make_pair(-1, -1));
     }
 };
 
@@ -76,32 +76,38 @@ public:
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Grid Example");
 
-    std::vector<std::vector<int>> g = {
-        {1, 2, 3},
-        {2, 3, 1},
-        {3, 1, 2}
-    };
+    size_t n = 10;
+    
+    vector<vector<int>> g(n, vector<int>(n, 0));
+    
+    g = fillGrid(g);
+    for (size_t i = 0; i < g.size(); i++){
+        for (size_t j = 0; j < g.size(); j++){
+            g[i][j] = (i + j) % 2 + 1;
+        }
+    }
 
     std::vector<sf::RectangleShape> rectangles;
 
-    // Create rectangles and fill the grid
     for (int i = 0; i < g.size(); i++) {
         for (int j = 0; j < g[i].size(); j++) {
             sf::RectangleShape rectangle(sf::Vector2f(50.f, 50.f));
             rectangle.setPosition(j * 60.f, i * 60.f);
-            rectangle.setFillColor(sf::Color::Blue);  // Initial color is blue
+            rectangle.setFillColor(sf::Color::Blue);
             rectangles.push_back(rectangle);
         }
     }
 
     EventController eventController;
     GridDisplay gridDisplay;
-
-    while (window.isOpen()) {
+    int score = 0;
+    bool gamerunning = true; 
+  
+    while (window.isOpen() && gamerunning) {
         eventController.handleEvent(window, rectangles);
         gridDisplay.displayGrid(window, rectangles);
 
-        // Print clicked indices
+
         if (eventController.hasTwoClicked()) {
             auto clickedIndices = eventController.getClickedIndices();
             std::cout << "Indices of clicked elements:" << std::endl;
@@ -111,6 +117,6 @@ int main() {
             std::cout << "No rectangles are clicked." << std::endl;
         }
     }
-    
+
     return 0;
 }
