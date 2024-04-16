@@ -3,7 +3,7 @@
 #include <random>
 #include <utility>
 #define COLORMINID 1 // numbers of total colors (replaced at compile time)
-#define COLORMAXID 3 //
+#define COLORMAXID 5 //
 
 
 using namespace std;
@@ -40,7 +40,7 @@ void displayMat2d(vector<vector<int>> g){
         }
         cout << endl;
     }
-    
+    cout << endl;
 }
 
 vector<vector<int>> destructGrid(vector<vector<int>> g, int& score) {
@@ -139,22 +139,47 @@ bool canBeDestruct(vector<vector<int>> g){
     }
     return all;
 }
-bool isSolvable(vector<vector<int>> g){
+bool isSolvable(vector<vector<int>> g) {
     int n = g.size();
-    for (size_t i = 0; i < n; i++)
-    {
-        /* code */
+
+    for (size_t i = 0; i < n - 1; i++) {
+        for (size_t j = 0; j < n; j++) {
+            swap(g[i][j], g[i + 1][j]); 
+            if (canBeDestruct(g)) {
+                return true;  // found a solution on col 
+            }
+            swap(g[i][j], g[i + 1][j]); // swap back 
+        }
     }
-    
+
+    for (size_t i = 0; i < n; i++) {
+        for (size_t j = 0; j < n - 1; j++) {
+            swap(g[i][j], g[i][j + 1]); 
+            if (canBeDestruct(g)) {
+                return true;  // found a solution on row
+            }
+            swap(g[i][j], g[i][j + 1]); // swap back
+        }
+    }
+
+    return false;  // No solution found
+}
+
+bool isValid(vector<vector<int>> g, pair<int, int> c1, pair<int, int> c2) {
+    int n = g.size();
+
+    if (abs(c1.first - c2.first) + abs(c1.second - c2.second) != 1) {
+        return false; 
+    }
+
+    swap(g[c1.first][c1.second], g[c2.first][c2.second]);
+    displayMat2d(g);
+    return canBeDestruct(g);
 }
 
 
 
-int main(int argc, char const *argv[])
-{
-    size_t n = 10;
-    vector<vector<int>> g(n, vector<int>(n, 0));
-
+void test(vector<vector<int>> g){
     g = fillGrid(g);
     score = 0;
     displayMat2d(g);
@@ -164,21 +189,44 @@ int main(int argc, char const *argv[])
     displayMat2d(fallGrid(destructGrid(g, score)));
     cout << "\n";
     displayMat2d(fillGrid(fallGrid(destructGrid(g, score))));
-
-    /*
+    
     //damier 
     for (size_t i = 0; i < g.size(); i++){
         for (size_t j = 0; j < g.size(); j++){
             g[i][j] = (i + j)%2 +1;
         }
     }
-    g[0][1] = 1;
+    
+    /*
+    //not solvable 
+    int c = 0;
+    for (size_t i = 0; i < g.size(); i++){
+        for (size_t j = 0; j < g.size(); j++){
+            g[i][j] = c +1;
+            c++;
+        }
+    }
     */
+    
     cout << "\n";
     displayMat2d(g);
     cout << "\n";
-    cout << canBeDestruct(g);
+    cout << canBeDestruct(g) << endl;
+    cout << isSolvable(g);
+    cout << "\n";
+    displayMat2d(g);
+    
+}
 
-    std::pair<int, int> result = getCoup();
+
+int main(int argc, char const *argv[])
+{
+    size_t n = 10;
+    vector<vector<int>> g(n, vector<int>(n, 0));
+    pair<int, int> result = getCoup();
+    g = fillGrid(g);
+    
+    displayMat2d(g);
+    
     return 0;
 }
