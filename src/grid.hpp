@@ -11,10 +11,10 @@ class grid
 private:
 public:
     vector<vector<candy *>> _grid;
-    bool isSolvable(); // TODO
-    bool isValidMove(); // TODO
-    void candydestruct();// TODO
-    void candyFall(); // TODO
+    bool isSolvable(); 
+    bool isValidMove(int i, int j, int k, int l); 
+    void candydestruct();
+    void candyFall(); 
     void debugDisplay();
     grid(int size = 10);
     ~grid();

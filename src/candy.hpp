@@ -1,3 +1,5 @@
+#include <string>
+
 #pragma once
 enum colors {RED , BLUE , GREEN, PURPLE, WHITE, COUNT};
 
@@ -12,4 +14,5 @@ public:
     colors getColor();
     void setColor(colors  col);
     void setRandom(); // TODO
+    std::string colorToString();
 };

@@ -27,3 +27,4 @@ bool IOevent::isMouseClickedRight(){
 void IOevent::setMouseClickedRight(bool v){
     _RightMouseClicked = v;
 }
+

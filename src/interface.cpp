@@ -1,6 +1,8 @@
 #include "interface.hpp"
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "utils.cpp"
+
 
 interface::interface() {
     if (!_font.loadFromFile("arial.ttf")) {
@@ -38,7 +40,7 @@ sf::Color enumToColor(colors color)
                 return sf::Color(128, 0, 128);
                 
             default:
-                return sf::Color::White; // Default color or handle the default case appropriately
+                return sf::Color::White; 
 
         }
     }
@@ -46,14 +48,14 @@ sf::Color enumToColor(colors color)
 void interface::affichergrid(sf::RenderWindow *window, grid *grid) {
     std::vector<sf::RectangleShape> rectangles;
     
-    // Function to convert enum value to corresponding SFML color
+
         
     
     for (int i = 0; i < grid->_grid.size(); i++) {
-        for (int j = 0; j < grid->_grid[i].size(); j++) { // Fix: use grid->_grid[i].size() for the inner loop
+        for (int j = 0; j < grid->_grid[i].size(); j++) { 
             sf::RectangleShape rectangle(sf::Vector2f(50.f, 50.f));
             rectangle.setPosition(i * 60.f, j * 60.f);
-            rectangle.setFillColor(enumToColor(grid->_grid[i][j]->getColor())); // Fill color based on enum value
+            rectangle.setFillColor(enumToColor(grid->_grid[i][j]->getColor())); 
             rectangles.push_back(rectangle);   
         }
     }
@@ -62,9 +64,7 @@ void interface::affichergrid(sf::RenderWindow *window, grid *grid) {
     }    
 }
 
-
-MenuOption interface::affichermenu(sf::RenderWindow *window, IOevent *ioevent) 
-{
+MenuOption interface::affichermenu(sf::RenderWindow *window, IOevent *ioevent) {
     sf::Color textColorW = sf::Color::White;
     sf::Color textColorR = sf::Color::Red;
 
@@ -118,21 +118,16 @@ MenuOption interface::affichermenu(sf::RenderWindow *window, IOevent *ioevent)
         }
 
         button.setCharacterSize(textSize);
-        /*
-        if (isInsideBox(ioevent->getMousePos(), sf::Vector2f(x + 10, y), 300, 20)) {
-            button.setFillColor(textColorR);
-            if (ioevent->isMouseClicked()) {
-                return currentOption; // Return the selected menu option
-            }
-        } else {
-            button.setFillColor(textColorW);
-        }
+
+        sf::Vector2f buttonPosition(x + 10, y);
+        sf::FloatRect buttonRect(buttonPosition, sf::Vector2f(300, 20));
+
+        button.setFillColor(textColorW);
+        
         button.setPosition(x, y);
         window->draw(button);
         y += textSize + spacing;
-    
-    */
-    // If no option is clicked, return a default value
     }
+
     return MenuOption::None;
 }

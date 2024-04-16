@@ -66,7 +66,8 @@ game::game(sf::RenderWindow *window) {
                 if (event.type == sf::Event::Closed)
                     _window->close();
             }
-
+        
+        MenuOption choice; 
         _window->clear();
         switch (gameState)
         {
@@ -74,7 +75,7 @@ game::game(sf::RenderWindow *window) {
                 this->afficherpartie(_window);
                 break;
             case INMENU:
-                MenuOption choice = _interface->affichermenu(_window, _IOevent);
+                choice = _interface->affichermenu(_window, _IOevent);
                 break;
             case NONE:
                 _window->close();
@@ -84,7 +85,6 @@ game::game(sf::RenderWindow *window) {
 
                 break;
         }
-
         switch (choice) {
             case MenuOption::Continue:
                 gameState = INGAME;
@@ -104,8 +104,7 @@ game::game(sf::RenderWindow *window) {
             case MenuOption::None:
                 break;
             default:
-                gameState = NONE;
-            
+                gameState = NONE;      
                 break;
             }
         _window->display();
@@ -113,22 +112,17 @@ game::game(sf::RenderWindow *window) {
 
     };
 
-
     std::string enumToStr(colors color)
     {
         switch(color) {
             case RED:
                 return "R";
-                
             case BLUE:
                 return "B";
-                
             case GREEN:
                 return "G";
-                
             case PURPLE:
                 return "P";
-                
             default:
                 return "W";
         }
