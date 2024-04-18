@@ -1,4 +1,5 @@
 # candycrush
 
-g++ main.cpp grid.cpp candy.cpp interface.cpp game.cpp -o main -lsfml-graphics -lsfml-window -lsfml-system
+g++ main.cpp GridDisplay.cpp EventController.cpp grille.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
+
 

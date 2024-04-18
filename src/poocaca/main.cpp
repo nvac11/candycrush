@@ -2,7 +2,6 @@
 #include <iostream>
 #include <unordered_map>
 #include <utility>  
-#include "../gridfunc/grille.hpp"
 class EventController {
 private:
     std::unordered_map<int, std::pair<int, int>> clickedIndices;
@@ -78,19 +77,12 @@ int main() {
 
     size_t n = 10;
     
-    vector<vector<int>> g(n, vector<int>(n, 0));
     
-    g = fillGrid(g);
-    for (size_t i = 0; i < g.size(); i++){
-        for (size_t j = 0; j < g.size(); j++){
-            g[i][j] = (i + j) % 2 + 1;
-        }
-    }
 
     std::vector<sf::RectangleShape> rectangles;
 
-    for (int i = 0; i < g.size(); i++) {
-        for (int j = 0; j < g[i].size(); j++) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
             sf::RectangleShape rectangle(sf::Vector2f(50.f, 50.f));
             rectangle.setPosition(j * 60.f, i * 60.f);
             rectangle.setFillColor(sf::Color::Blue);
