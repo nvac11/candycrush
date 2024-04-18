@@ -10,7 +10,6 @@ void EventController::handleEvent(sf::RenderWindow& window) {
         if (event.type == sf::Event::Closed) {
             window.close();
         }
-
         if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
             sf::Vector2f mousePos = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
             gdisplay->processRectClicked(mousePos, clickedPairs);

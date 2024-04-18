@@ -7,6 +7,8 @@ private:
     std::vector<sf::RectangleShape> rectangles;
     std::vector<std::vector<int>> gInner;
     int n;
+    sf::Font font;
+    sf::Text scoreText;
 
 public:
     GridDisplay(int n );
@@ -14,5 +16,6 @@ public:
     void processRectClicked(sf::Vector2f mousePos, std::pair<std::pair<int, int>, std::pair<int, int>>& clickedPairs);
     void displayGrid(sf::RenderWindow& window) const;
     void updateRectGrid(vector<vector<int>> g);
+    void updateScore(int score);
     sf::Color intToSFMLColor(int colorCode);
 };
