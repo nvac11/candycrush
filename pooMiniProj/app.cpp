@@ -46,13 +46,17 @@ void app::playmenu()
     {
     case MenuOption::Continue:
         std::cout << "Continue selected" << std::endl; 
-        playgame();
+        if(!playgame()){
+            menuDisplay.displayScoreAndGameOver(*window, gameData.score, true);
+        }
         break;
     case MenuOption::PlayNewGame:
         std::cout << "Play New Game selected" << std::endl;
         flushGameData();
-        playgame();
-            
+        if(!playgame()){
+            menuDisplay.displayScoreAndGameOver(*window, gameData.score, true);
+        }
+        
         break;
     case MenuOption::Save:
         std::cout << "Save selected" << std::endl;
@@ -81,12 +85,9 @@ void app::load(std::string filename) {
         std::cerr << "Failed to open file: " << filename << std::endl;
         return;
     }
-    
+
     file >> gameData.score;
-
     file >> gameData.movesremaining;
-
-    // Load grid
     gameData.g.resize(n, std::vector<int>(n, 0));
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
@@ -104,26 +105,18 @@ void app::save(std::string filename) {
         std::cerr << "Failed to open file: " << filename << std::endl;
         return;
     }
-    
-    // Save score
     file << gameData.score << std::endl;
-
-    // Save moves remaining
     file << gameData.movesremaining << std::endl;
-
-    // Save grid
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             file << gameData.g[i][j] << " ";
         }
         file << std::endl;
     }
-
     file.close();
 }
 
 bool app::playgame(){
-    // initialisation de la grille
     auto g = gameData.g;
     int score;
     bool gamerunning = true;

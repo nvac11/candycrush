@@ -95,3 +95,33 @@ MenuOption DisplayMenu::displayMenu(sf::RenderWindow& window)
 
     return MenuOption::None;  
 }
+
+void DisplayMenu::displayScoreAndGameOver(sf::RenderWindow& window, int score, bool gameOver) {
+    window.clear();
+    
+    sf::Text scoreText;
+    scoreText.setFont(font);
+    scoreText.setCharacterSize(30);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition(50, 50);
+    scoreText.setString("Score: " + std::to_string(score));
+    window.draw(scoreText);
+
+    sf::Text gameOverText;
+    gameOverText.setFont(font);
+    gameOverText.setCharacterSize(50);
+    gameOverText.setFillColor(sf::Color::Red);
+    gameOverText.setPosition(200, 200);
+    gameOverText.setString("Game Over");
+    window.draw(gameOverText);
+    
+    window.display();
+
+    // Wait for Escape key press to continue
+    sf::Event event;
+    while (window.waitEvent(event)) {
+        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+            break;
+        }
+    }
+}

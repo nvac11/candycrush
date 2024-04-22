@@ -23,4 +23,5 @@ public:
     ~DisplayMenu();
 
     MenuOption displayMenu(sf::RenderWindow& window);
+    void displayScoreAndGameOver(sf::RenderWindow& window, int score, bool gameOver);
 };
