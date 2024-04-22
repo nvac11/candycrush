@@ -132,8 +132,6 @@ bool app::playgame(){
         g = fallGrid(g);
         g = fillGrid(g);
     } while(canBeDestruct(g));
-    
-
     gridDisplay.updateRectGrid(g);
     gridDisplay.updateScore(gameData.score, gameData.movesremaining);
     auto lastclicked = std::make_pair(std::make_pair(-1, -1), std::make_pair(-1, -1));
