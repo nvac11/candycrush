@@ -10,7 +10,7 @@ private:
     int n;
     sf::Font font;
     sf::Text scoreText;
-
+    
 public:
     GridDisplay(int n );
 

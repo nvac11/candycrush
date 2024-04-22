@@ -87,7 +87,9 @@ std::tuple<std::vector<std::vector<int>>, int, int> app::playgame(){
     while (window->isOpen() && gamerunning) {
         if(movesremaing <= 0){gamerunning = false;}
         lastclicked = std::make_pair(std::make_pair(-1, -1), std::make_pair(-1, -1));
-        eventController.handleEvent(*window);
+        if(eventController.handleEvent(*window)){
+            return std::make_tuple(g, score, movesremaing);
+        }
         gridDisplay.displayGrid(*window);
         if (eventController.hasTwoClicked()) {
             auto clickedIndices = eventController.getClickedPairs();
@@ -106,6 +108,7 @@ std::tuple<std::vector<std::vector<int>>, int, int> app::playgame(){
                     gridDisplay.updateRectGrid(g);
                 } while(canBeDestruct(g) && isSolvable(g));
                 if (!isSolvable(g)) {gamerunning = false;}
+                eventController.resetClicked();
             }
         }
     }

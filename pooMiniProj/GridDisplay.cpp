@@ -13,6 +13,7 @@ GridDisplay::GridDisplay(int n ) : n(n),gInner(n, std::vector<int>(n, 0)) {
             rectangles.push_back(rectangle);
         }
     }
+
     if (!font.loadFromFile("arial.ttf")) {
         std::cerr << "Failed to load font" << std::endl;
     }

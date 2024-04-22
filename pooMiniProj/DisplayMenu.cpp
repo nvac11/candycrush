@@ -8,28 +8,7 @@ DisplayMenu::DisplayMenu()
     }
 }
 
-DisplayMenu::~DisplayMenu()
-{
-}
-
-sf::Color DisplayMenu::intToSFMLColor(int colorCode) {
-    switch(colorCode) {
-        case 0:
-            return sf::Color::White;
-        case 1:
-            return sf::Color::Magenta;
-        case 2:
-            return sf::Color::Red;
-        case 3:
-            return sf::Color::Green;
-        case 4:
-            return sf::Color::Blue;
-        case 5:
-            return sf::Color::Yellow;
-        default:
-            return sf::Color::Transparent;
-    }
-}
+DisplayMenu::~DisplayMenu(){}
 
 MenuOption DisplayMenu::displayMenu(sf::RenderWindow& window)
 {
