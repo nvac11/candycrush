@@ -48,7 +48,6 @@ game::game(sf::RenderWindow *window) {
         while (_window->isOpen()) {
             sf::Event event;
             while (_window->pollEvent(event)) {
-                    
                 sf::Vector2i mousePos = sf::Mouse::getPosition(*_window); 
                 sf::Vector2f worldMousePos = _window->mapPixelToCoords(mousePos); 
                 _IOevent->setMousePos(worldMousePos); 

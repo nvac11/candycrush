@@ -20,7 +20,7 @@ GridDisplay::GridDisplay(int n ) : n(n),gInner(n, std::vector<int>(n, 0)) {
     scoreText.setFont(font);
     scoreText.setCharacterSize(24); 
     scoreText.setFillColor(sf::Color::White);
-    scoreText.setPosition(600, 100); 
+    scoreText.setPosition(500, 100);
 }
 
 void GridDisplay::processRectClicked(sf::Vector2f mousePos, std::pair<std::pair<int, int>, std::pair<int, int>>& clickedPairs) {
@@ -47,8 +47,8 @@ void GridDisplay::processRectClicked(sf::Vector2f mousePos, std::pair<std::pair<
     }
 }
 
-void GridDisplay::updateScore(int score) {
-    scoreText.setString("Score: " + std::to_string(score));
+void GridDisplay::updateScore(int score,int remainingmoves) {
+    scoreText.setString("Score: " + std::to_string(score) + "\n" + "Remaining moves: " + std::to_string(remainingmoves));
 }
 
 sf::Color GridDisplay::intToSFMLColor(int colorCode) {
@@ -88,3 +88,5 @@ void GridDisplay::displayGrid(sf::RenderWindow& window) const {
     window.draw(scoreText);
     window.display();
 }
+
+
