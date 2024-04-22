@@ -9,6 +9,13 @@
 #include "DisplayMenu.hpp"
 enum State {INMENU, INGAME, NONE};
 
+
+struct GameData {
+    std::vector<std::vector<int>> g;  
+    int score;                         
+    int movesremaining;                
+};
+
 class app
 {
 
@@ -18,13 +25,15 @@ class app
         GridDisplay gridDisplay;
         EventController eventController;
         DisplayMenu menuDisplay;
+        GameData gameData;
         int n;
     public:
         app(sf::RenderWindow * window , int n );
         ~app();
         void start(State gs);
         void playmenu();
-        std::tuple<std::vector<std::vector<int>>, int, int> playgame();
-        std::tuple<std::vector<std::vector<int>>, int, int> load(std::string filename);
-        void save(std::string filename, std::vector<std::vector<int>> g, int score, int remainingmoves);
+        bool playgame();
+        void load(std::string filename);
+        void save(std::string filename);
+        void flushGameData();
 };

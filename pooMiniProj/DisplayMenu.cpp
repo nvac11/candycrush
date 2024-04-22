@@ -12,6 +12,8 @@ DisplayMenu::~DisplayMenu(){}
 
 MenuOption DisplayMenu::displayMenu(sf::RenderWindow& window)
 {
+    window.clear();
+
     sf::Color textColorW = sf::Color::White;
 
     unsigned int textSize = 30;
@@ -29,7 +31,6 @@ MenuOption DisplayMenu::displayMenu(sf::RenderWindow& window)
     rect.setOutlineThickness(2);
 
     rect.setPosition(x - 10.f, y - 10.f);
-
     window.draw(rect);
 
     for (int i = 0; i < 5; ++i) {

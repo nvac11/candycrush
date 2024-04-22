@@ -6,29 +6,34 @@
 #include "EventController.hpp"
 #include "GridDisplay.hpp"
 #include "grille.hpp"
+#include <fstream>
 using namespace std;
+
 app::app(sf::RenderWindow * window, int n)
     : window(window), n(n), gridDisplay(n), eventController(&gridDisplay), menuDisplay()
-{}
+{
+    flushGameData();
+}
 
-app::~app()
-{}
+app::~app(){}
 
-void app::start(State gs = INGAME){
+void app::start(State gs = INMENU){
     gamestate = gs;
-    switch (gamestate)
-    {
-    case INMENU:
-        playmenu();
-        break;
-    case INGAME:
-        playgame();
-        break;
-    case NONE:
-        std::cout << "quiting game" << std::endl;
-        break;
-    default:
-        break;
+    while(gamestate != NONE){
+        switch (gamestate)
+        {
+        case INMENU:
+            playmenu();
+            break;
+        case INGAME:
+            playgame();
+            break;
+        case NONE:
+            std::cout << "quiting game" << std::endl;
+            break;
+        default:
+            break;
+        }
     }
 }
 
@@ -40,55 +45,104 @@ void app::playmenu()
     switch (choice)
     {
     case MenuOption::Continue:
-        std::cout << "Continue selected" << std::endl;
+        std::cout << "Continue selected" << std::endl; 
+        playgame();
         break;
-
     case MenuOption::PlayNewGame:
         std::cout << "Play New Game selected" << std::endl;
-        start(INGAME);  
+        flushGameData();
+        playgame();
+            
         break;
-
     case MenuOption::Save:
         std::cout << "Save selected" << std::endl;
+        save("file1.txt");
         break;
 
     case MenuOption::Load:
         std::cout << "Load selected" << std::endl;
+        load("file1.txt");
         break;
 
     case MenuOption::Quit:
         std::cout << "Quit selected" << std::endl;
+        gamestate = NONE;
         window->close();
         break;
-
     default:
         std::cout << "Unknown option selected" << std::endl;
         break;
     }
 }
+void app::load(std::string filename) {
+    std::ifstream file(filename);
+    
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file: " << filename << std::endl;
+        return;
+    }
+    
+    file >> gameData.score;
 
+    file >> gameData.movesremaining;
 
-std::tuple<std::vector<std::vector<int>>, int, int> app::playgame(){
+    // Load grid
+    gameData.g.resize(n, std::vector<int>(n, 0));
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            file >> gameData.g[i][j];
+        }
+    }
+
+    file.close();
+}
+
+void app::save(std::string filename) {
+    std::ofstream file(filename);
+    
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file: " << filename << std::endl;
+        return;
+    }
+    
+    // Save score
+    file << gameData.score << std::endl;
+
+    // Save moves remaining
+    file << gameData.movesremaining << std::endl;
+
+    // Save grid
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            file << gameData.g[i][j] << " ";
+        }
+        file << std::endl;
+    }
+
+    file.close();
+}
+
+bool app::playgame(){
     // initialisation de la grille
-    int score = 0;
-    int movesremaing = 13;
+    auto g = gameData.g;
+    int score;
     bool gamerunning = true;
-    vector<vector<int>> g = fillGrid(vector<vector<int>>(n, vector<int>(n, 0))); 
     do {
         g = destructGrid(g, score);
         g = fallGrid(g);
         g = fillGrid(g);
     } while(canBeDestruct(g));
     
-    score = 0;
+
     gridDisplay.updateRectGrid(g);
-    gridDisplay.updateScore(score, movesremaing);
+    gridDisplay.updateScore(gameData.score, gameData.movesremaining);
     auto lastclicked = std::make_pair(std::make_pair(-1, -1), std::make_pair(-1, -1));
     while (window->isOpen() && gamerunning) {
-        if(movesremaing <= 0){gamerunning = false;}
+        if(gameData.movesremaining <= 0){gamerunning = false;}
         lastclicked = std::make_pair(std::make_pair(-1, -1), std::make_pair(-1, -1));
         if(eventController.handleEvent(*window)){
-            return std::make_tuple(g, score, movesremaing);
+            gameData.g = g;
+            return true;
         }
         gridDisplay.displayGrid(*window);
         if (eventController.hasTwoClicked()) {
@@ -97,14 +151,14 @@ std::tuple<std::vector<std::vector<int>>, int, int> app::playgame(){
             pair<int, int> c2 = clickedIndices.second;
             if( lastclicked == clickedIndices){ break;}
             if (isValid(g, c1, c2)) {
-                movesremaing--;
+                gameData.movesremaining--;
                 lastclicked = clickedIndices;               
                 swap(g[c1.first][c1.second], g[c2.first][c2.second]);
                 do {
-                    g = destructGrid(g, score);
+                    g = destructGrid(g, gameData.score);
                     g = fallGrid(g);
                     g = fillGrid(g);
-                    gridDisplay.updateScore(score, movesremaing);
+                    gridDisplay.updateScore(gameData.score, gameData.movesremaining);
                     gridDisplay.updateRectGrid(g);
                 } while(canBeDestruct(g) && isSolvable(g));
                 if (!isSolvable(g)) {gamerunning = false;}
@@ -112,5 +166,12 @@ std::tuple<std::vector<std::vector<int>>, int, int> app::playgame(){
             }
         }
     }
-    return std::make_tuple(g, score, movesremaing);
+    gameData.g = g;
+    return false;
+}
+
+void app::flushGameData() {
+    gameData.g = fillGrid(std::vector<std::vector<int>>(n, std::vector<int>(n, 0)));
+    gameData.score = 0;
+    gameData.movesremaining = 13;
 }
