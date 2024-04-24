@@ -5,8 +5,9 @@
 #include <utility>  
 #include "EventController.hpp"
 #include "GridDisplay.hpp"
-#include "grille.hpp"
 #include <fstream>
+#include "grid.hpp"
+
 using namespace std;
 
 app::app(sf::RenderWindow * window, int n)
@@ -117,7 +118,8 @@ void app::save(std::string filename) {
 }
 
 bool app::playgame(){
-    auto g = gameData.g;
+    vector<vector<int>> g = gameData.g;
+    
     int score;
     bool gamerunning = true;
     do {
@@ -138,9 +140,9 @@ bool app::playgame(){
         gridDisplay.displayGrid(*window);
         if (eventController.hasTwoClicked()) {
             auto clickedIndices = eventController.getClickedPairs();
-            pair<int, int> c1 = clickedIndices.first;
-            pair<int, int> c2 = clickedIndices.second;
-            if( lastclicked == clickedIndices){ break;}
+            auto c1 = clickedIndices.first;
+            auto c2 = clickedIndices.second;
+            if(lastclicked == clickedIndices){ break;}
             if (isValid(g, c1, c2)) {
                 gameData.movesremaining--;
                 lastclicked = clickedIndices;               

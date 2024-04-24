@@ -9,12 +9,13 @@ def generate_class_diagram(classes, associations, output_file):
         "app": "0,2!",
         "DisplayMenu": "2,2!",
         "GridDisplay": "0,0!",
-        "EventController" : "2,0!"
+        "EventController" : "2,0!",
+        "(Struct) GameData": "2,1!"
     }
     
     for class_name, attributes, methods in classes:
-        attributes_str = "\\l".join(attributes)
-        methods_str = "\\l".join(methods)
+        attributes_str = "\\l".join(attributes) + "\\l"
+        methods_str = "\\l".join(methods) + "\\l"
         
         # Escape special characters and type declarations
         attributes_str = attributes_str.replace("<", "\<").replace(">", "\>")
@@ -33,7 +34,7 @@ def generate_class_diagram(classes, associations, output_file):
         if link_type == 'composition':
             dot.edge(class1, class2, arrowhead='diamond')
         elif link_type == 'aggregation':
-            dot.edge(class1, class2, arrowhead='emptydiamond')
+            dot.edge(class1, class2, arrowhead='odiamond')
         elif link_type == 'association':
             dot.edge(class1, class2, arrowhead='normal')
 
@@ -48,11 +49,13 @@ if __name__ == "__main__":
         ("GridDisplay", ["std::vector<sf::RectangleShape> rectangles", "std::vector<std::vector<int>> gInner", "int n", "sf::Font font", "sf::Text scoreText"],
          ["GridDisplay(int n )", "void processRectClicked(sf::Vector2f mousePos, std::pair<std::pair<int, int>, std::pair<int, int>>& clickedPairs)", "void displayGrid(sf::RenderWindow& window) const", "void updateRectGrid(std::vector<std::vector<int>> g)", "void updateScore(int score, int remainingmove)", "sf::Color intToSFMLColor(int colorCode)"]),
         ("EventController",["GridDisplay * gdisplay","std::pair<std::pair<int, int>, std::pair<int, int>> clickedPairs"],
-         ["EventController(GridDisplay *g)","bool handleEvent(sf::RenderWindow& window)","std::pair<std::pair<int, int>, std::pair<int, int>>& getClickedPairs()","bool hasTwoClicked() const","void resetClicked()","bool noRectClicked() const"])]
+         ["EventController(GridDisplay *g)","bool handleEvent(sf::RenderWindow& window)","std::pair<std::pair<int, int>, std::pair<int, int>>& getClickedPairs()","bool hasTwoClicked() const","void resetClicked()","bool noRectClicked() const"]),
+        ("(Struct) GameData", ["std::vector<std::vector<int>> g", "int score","int movesremaining"],[""])]
     associations = [
-        ("app", "DisplayMenu", "composition"),
-        ("app", "GridDisplay", "composition"),
-        ("app", "EventController", "composition"),
+        ("DisplayMenu", "app", "composition"),
+        ("GridDisplay", "app", "composition"),
+        ("EventController", "app", "composition"),
+        ("(Struct) GameData", "app", "composition"),
         ("EventController", "GridDisplay", "aggregation")
     ]
 

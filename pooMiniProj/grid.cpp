@@ -1,5 +1,5 @@
 
-#include "grille.hpp"
+#include "grid.hpp"
 #include <iostream>
 #define COLORMINID 1 // numbers of total colors (replaced at compile time)
 #define COLORMAXID 5 
@@ -18,19 +18,6 @@ int getRandomInt(int min, int max)
     return distrib(gen);  
 }
 
-pair<pair<int, int>, pair<int, int>> getCoup() {
-    pair<int, int> c1 ;
-    pair<int, int> c2 ;
-
-    cout << "entrer coup 1 :" << endl;
-    cin >> c1.first;
-    cin >> c1.second;
-    cout << "entrer coup 2 :" << endl;
-    cin >> c2.first;
-    cin >> c2.second;
-    return {c1,c2};
-}
-
 void displayMat2d(vector<vector<int>> g){
     // debug display
     for (size_t i = 0; i < g.size(); i++){
@@ -42,7 +29,7 @@ void displayMat2d(vector<vector<int>> g){
     cout << endl;
 }
 
-vector<vector<int>> destructGrid(vector<vector<int>> g, int& score) {
+vector<vector<int>> Grid::destructGrid(vector<vector<int>> g, int& score) {
     int n = g.size();
     vector<vector<bool>> mask(n, vector<bool>(n, false));
     vector<vector<int>> ret(n, vector<int>(n, 0));  
@@ -85,7 +72,7 @@ vector<vector<int>> destructGrid(vector<vector<int>> g, int& score) {
 
 
 
-vector<vector<int>> fallGrid(vector<vector<int>> g) {
+vector<vector<int>> Grid::fallGrid(vector<vector<int>> g) {
     int n = g.size();
     vector<vector<int>> ret(n, vector<int>(n, 0)); 
     
@@ -106,7 +93,7 @@ vector<vector<int>> fallGrid(vector<vector<int>> g) {
     return ret;
 }
 
-vector<vector<int>> fillGrid(vector<vector<int>> g){
+vector<vector<int>> Grid::fillGrid(vector<vector<int>> g){
     int n = g.size();
     // fill grid
     vector<vector<int>> ret(n, vector<int>(n, 0)); 
@@ -123,11 +110,11 @@ vector<vector<int>> fillGrid(vector<vector<int>> g){
     return ret;
 }
 
-bool canBeDestruct(vector<vector<int>> g){
+bool Grid::canBeDestruct(vector<vector<int>> g){
     int trashC = 0;
     int n = g.size();
     bool all = false;
-    auto destructedGrid = destructGrid(g, trashC);
+    auto destructedGrid = Grid::destructGrid(g, trashC);
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             if (destructedGrid[i][j] != g[i][j]){
@@ -137,7 +124,7 @@ bool canBeDestruct(vector<vector<int>> g){
     }
     return all;
 }
-bool isSolvable(vector<vector<int>> g) {
+bool Grid::isSolvable(vector<vector<int>> g) {
     int n = g.size();
 
     for (size_t i = 0; i < n - 1; i++) {
@@ -163,7 +150,7 @@ bool isSolvable(vector<vector<int>> g) {
     return false;  // No solution found
 }
 
-bool isValid(vector<vector<int>> g, pair<int, int> c1, pair<int, int> c2) {
+bool Grid::isValid(vector<vector<int>> g, pair<int, int> c1, pair<int, int> c2) {
     int n = g.size();
 
     if (abs(c1.first - c2.first) + abs(c1.second - c2.second) != 1) {
@@ -174,44 +161,3 @@ bool isValid(vector<vector<int>> g, pair<int, int> c1, pair<int, int> c2) {
     //displayMat2d(g);
     return canBeDestruct(g);
 }
-
-
-/*
-void test(vector<vector<int>> g){
-    g = fillGrid(g);
-    score = 0;
-    displayMat2d(g);
-    cout << "\n";
-    displayMat2d(destructGrid(g, score));
-    cout << "\n";
-    displayMat2d(fallGrid(destructGrid(g, score)));
-    cout << "\n";
-    displayMat2d(fillGrid(fallGrid(destructGrid(g, score))));
-    
-    //damier 
-    for (size_t i = 0; i < g.size(); i++){
-        for (size_t j = 0; j < g.size(); j++){
-            g[i][j] = (i + j)%2 +1;
-        }
-    }
-    
-    
-    //not solvable 
-    int c = 0;
-    for (size_t i = 0; i < g.size(); i++){
-        for (size_t j = 0; j < g.size(); j++){
-            g[i][j] = c +1;
-            c++;
-        }
-    }
-    
-    cout << "\n";
-    displayMat2d(g);
-    cout << "\n";
-    cout << canBeDestruct(g) << endl;
-    cout << isSolvable(g);
-    cout << "\n";
-    displayMat2d(g);
-    
-}
-*/

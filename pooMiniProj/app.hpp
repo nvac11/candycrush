@@ -5,13 +5,12 @@
 #include <utility>  
 #include "EventController.hpp"
 #include "GridDisplay.hpp"
-#include "grille.hpp"
+#include "grid.hpp"
 #include "DisplayMenu.hpp"
 
 
 
 // Author : Conrad
-
 enum State {INMENU, INGAME, NONE};
 struct GameData {
     std::vector<std::vector<int>> g;  
@@ -19,9 +18,8 @@ struct GameData {
     int movesremaining;                
 };
 
-class app
+class app : public Grid
 {
-
     private:
         State gamestate; 
         sf::RenderWindow * window;
