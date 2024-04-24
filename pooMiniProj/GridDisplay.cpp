@@ -28,13 +28,11 @@ void GridDisplay::processRectClicked(sf::Vector2f mousePos, std::pair<std::pair<
    for (int i = 0; i < rectangles.size(); ++i) {
         if (rectangles[i].getGlobalBounds().contains(mousePos)) {
             if (clickedPairs.first == std::make_pair(-1, -1)) {
-                std::cout << "clicked on first" << std::endl; 
-                int rowIndex = i / n;  
+                int rowIndex = i / n;
                 int colIndex = i % n;
                 clickedPairs.first = std::make_pair(rowIndex, colIndex);
                 rectangles[i].setFillColor(sf::Color::White);
             } else if (clickedPairs.second == std::make_pair(-1, -1)) {
-                std::cout << "clicked on second" << std::endl; 
                 int rowIndex = i / n;
                 int colIndex = i % n;
                 clickedPairs.second = std::make_pair(rowIndex, colIndex);

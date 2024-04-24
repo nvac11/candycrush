@@ -2,16 +2,9 @@ from graphviz import Digraph
 
 def generate_class_diagram(classes, associations, output_file):
     """Generate class diagram with specific layout using Graphviz."""
-    dot = Digraph(comment='Class candy crush', graph_attr={'rankdir': 'TB'})  # Set rankdir to 'TB' for vertical layout
+    dot = Digraph(comment='Class candy crush', graph_attr={'rankdir': 'BT'})  # Set rankdir to 'TB' for vertical layout
     
-    # Define classes with positions
-    positions = {
-        "app": "0,2!",
-        "DisplayMenu": "2,2!",
-        "GridDisplay": "0,0!",
-        "EventController" : "2,0!",
-        "(Struct) GameData": "2,1!"
-    }
+
     
     for class_name, attributes, methods in classes:
         attributes_str = "\\l".join(attributes) + "\\l"
@@ -23,11 +16,7 @@ def generate_class_diagram(classes, associations, output_file):
         
         class_label = f"{{ {class_name} | {attributes_str} | {methods_str} }}"
         
-        # Check if class_name is in positions dictionary to avoid KeyError
-        if class_name in positions:
-            dot.node(class_name, label=class_label, shape='record', pos=positions[class_name])
-        else:
-            dot.node(class_name, label=class_label, shape='record')
+        dot.node(class_name, label=class_label, shape='record')
 
     # Add associations
     for (class1, class2, link_type) in associations:
@@ -37,8 +26,10 @@ def generate_class_diagram(classes, associations, output_file):
             dot.edge(class1, class2, arrowhead='odiamond')
         elif link_type == 'association':
             dot.edge(class1, class2, arrowhead='normal')
+        elif link_type == 'heritage':
+            dot.edge(class1, class2, arrowhead='onormal')
 
-    dot.render(output_file, view=True, format='pdf', engine='dot')
+    dot.render(output_file, view = True, format='pdf', engine='dot')
 
 if __name__ == "__main__":
     classes = [
@@ -50,13 +41,16 @@ if __name__ == "__main__":
          ["GridDisplay(int n )", "void processRectClicked(sf::Vector2f mousePos, std::pair<std::pair<int, int>, std::pair<int, int>>& clickedPairs)", "void displayGrid(sf::RenderWindow& window) const", "void updateRectGrid(std::vector<std::vector<int>> g)", "void updateScore(int score, int remainingmove)", "sf::Color intToSFMLColor(int colorCode)"]),
         ("EventController",["GridDisplay * gdisplay","std::pair<std::pair<int, int>, std::pair<int, int>> clickedPairs"],
          ["EventController(GridDisplay *g)","bool handleEvent(sf::RenderWindow& window)","std::pair<std::pair<int, int>, std::pair<int, int>>& getClickedPairs()","bool hasTwoClicked() const","void resetClicked()","bool noRectClicked() const"]),
-        ("(Struct) GameData", ["std::vector<std::vector<int>> g", "int score","int movesremaining"],[""])]
+        ("(Struct) GameData", ["std::vector<std::vector<int>> g", "int score","int movesremaining"],[""]),
+        ("Grid", [""],["Grid()", "~Grid()", "bool isValid(vector<vector<int>> g, pair<int, int> c1, pair<int, int> c2)","vector<vector<int>> destructGrid(vector<vector<int>> g , int & score)", "vector<vector<int>> fallGrid(vector<vector<int>> g)", "vector<vector<int>> fillGrid(vector<vector<int>> g)","bool canBeDestruct(vector<vector<int>> g)","bool isSolvable(vector<vector<int>> g)"])]
+    
     associations = [
         ("DisplayMenu", "app", "composition"),
         ("GridDisplay", "app", "composition"),
         ("EventController", "app", "composition"),
         ("(Struct) GameData", "app", "composition"),
-        ("EventController", "GridDisplay", "aggregation")
+        ( "GridDisplay","EventController", "aggregation"),
+        ("app", "Grid", "heritage")
     ]
 
     output_file = "class_diagram_specific_positions"

@@ -111,10 +111,10 @@ vector<vector<int>> Grid::fillGrid(vector<vector<int>> g){
 }
 
 bool Grid::canBeDestruct(vector<vector<int>> g){
-    int trashC = 0;
+    int trashsC = 0;
     int n = g.size();
     bool all = false;
-    auto destructedGrid = Grid::destructGrid(g, trashC);
+    auto destructedGrid = destructGrid(g, trashsC);
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             if (destructedGrid[i][j] != g[i][j]){
