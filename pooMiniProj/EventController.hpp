@@ -19,5 +19,6 @@ public:
     std::pair<std::pair<int, int>, std::pair<int, int>>& getClickedPairs();
     bool hasTwoClicked() const;
     void resetClicked();
+    
     bool noRectClicked() const;
 };
