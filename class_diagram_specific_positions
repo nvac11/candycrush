@@ -1,0 +1,12 @@
+// Class candy crush
+digraph {
+	graph [rankdir=TB]
+	app [label="{ app | State gamestate\lsf::RenderWindow * window\lGridDisplay gridDisplay\lEventController eventController\lDisplayMenu menuDisplay\lGameData gameData\lint n | app(sf::RenderWindow * window , int n )\l~app()\lvoid start(State gs)\lvoid playmenu()\lbool playgame()\lvoid load(std::string filename)\lvoid save(std::string filename)\lvoid flushGameData() }" pos="0,2!" shape=record]
+	DisplayMenu [label="{ DisplayMenu | sf::Font font | DisplayMenu()\l~DisplayMenu()\lMenuOption displayMenu(sf::RenderWindow& window)\lvoid displayScoreAndGameOver(sf::RenderWindow& window, int score, bool gameOver) }" pos="2,2!" shape=record]
+	GridDisplay [label="{ GridDisplay | std::vector\<sf::RectangleShape\> rectangles\lstd::vector\<std::vector\<int\>\> gInner\lint n\lsf::Font font\lsf::Text scoreText | GridDisplay(int n )\lvoid processRectClicked(sf::Vector2f mousePos, std::pair\<std::pair\<int, int\>, std::pair\<int, int\>\>& clickedPairs)\lvoid displayGrid(sf::RenderWindow& window) const\lvoid updateRectGrid(std::vector\<std::vector\<int\>\> g)\lvoid updateScore(int score, int remainingmove)\lsf::Color intToSFMLColor(int colorCode) }" pos="0,0!" shape=record]
+	EventController [label="{ EventController | GridDisplay * gdisplay\lstd::pair\<std::pair\<int, int\>, std::pair\<int, int\>\> clickedPairs | EventController(GridDisplay *g)\lbool handleEvent(sf::RenderWindow& window)\lstd::pair\<std::pair\<int, int\>, std::pair\<int, int\>\>& getClickedPairs()\lbool hasTwoClicked() const\lvoid resetClicked()\lbool noRectClicked() const }" pos="2,0!" shape=record]
+	app -> DisplayMenu [arrowhead=diamond]
+	app -> GridDisplay [arrowhead=diamond]
+	app -> EventController [arrowhead=diamond]
+	EventController -> GridDisplay [arrowhead=emptydiamond]
+}

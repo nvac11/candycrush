@@ -164,5 +164,5 @@ bool app::playgame(){
 void app::flushGameData() {
     gameData.g = fillGrid(std::vector<std::vector<int>>(n, std::vector<int>(n, 0)));
     gameData.score = 0;
-    gameData.movesremaining = 13;
+    gameData.movesremaining = 30;
 }

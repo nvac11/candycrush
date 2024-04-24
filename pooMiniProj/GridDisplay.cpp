@@ -25,7 +25,7 @@ GridDisplay::GridDisplay(int n ) : n(n),gInner(n, std::vector<int>(n, 0)) {
 }
 
 void GridDisplay::processRectClicked(sf::Vector2f mousePos, std::pair<std::pair<int, int>, std::pair<int, int>>& clickedPairs) {
-    for (int i = 0; i < rectangles.size(); ++i) {
+   for (int i = 0; i < rectangles.size(); ++i) {
         if (rectangles[i].getGlobalBounds().contains(mousePos)) {
             if (clickedPairs.first == std::make_pair(-1, -1)) {
                 std::cout << "clicked on first" << std::endl; 
@@ -46,7 +46,7 @@ void GridDisplay::processRectClicked(sf::Vector2f mousePos, std::pair<std::pair<
             }
         }
     }
-}
+} 
 
 void GridDisplay::updateScore(int score,int remainingmoves) {
     scoreText.setString("Score: " + std::to_string(score) + "\n" + "Remaining moves: " + std::to_string(remainingmoves));
@@ -89,5 +89,3 @@ void GridDisplay::displayGrid(sf::RenderWindow& window) const {
     window.draw(scoreText);
     window.display();
 }
-
-

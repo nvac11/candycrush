@@ -99,6 +99,7 @@ MenuOption DisplayMenu::displayMenu(sf::RenderWindow& window)
 void DisplayMenu::displayScoreAndGameOver(sf::RenderWindow& window, int score, bool gameOver) {
     window.clear();
     
+    // final score display
     sf::Text scoreText;
     scoreText.setFont(font);
     scoreText.setCharacterSize(30);
@@ -106,7 +107,8 @@ void DisplayMenu::displayScoreAndGameOver(sf::RenderWindow& window, int score, b
     scoreText.setPosition(50, 50);
     scoreText.setString("Score: " + std::to_string(score));
     window.draw(scoreText);
-
+    
+    // gameover display
     sf::Text gameOverText;
     gameOverText.setFont(font);
     gameOverText.setCharacterSize(50);
@@ -116,8 +118,8 @@ void DisplayMenu::displayScoreAndGameOver(sf::RenderWindow& window, int score, b
     window.draw(gameOverText);
     
     window.display();
-
-    // Wait for Escape key press to continue
+    
+    // enter escape to quit gameover screen
     sf::Event event;
     while (window.waitEvent(event)) {
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {

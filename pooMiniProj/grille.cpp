@@ -2,7 +2,7 @@
 #include "grille.hpp"
 #include <iostream>
 #define COLORMINID 1 // numbers of total colors (replaced at compile time)
-#define COLORMAXID 5 //
+#define COLORMAXID 5 
 
 
 using namespace std;
@@ -11,6 +11,7 @@ using namespace std;
 
 int getRandomInt(int min, int max)
 {
+    // return a random int beetween the int and the max
     std::random_device rd;  
     std::mt19937 gen(rd()); 
     std::uniform_int_distribution<> distrib(min, max); 
@@ -31,6 +32,7 @@ pair<pair<int, int>, pair<int, int>> getCoup() {
 }
 
 void displayMat2d(vector<vector<int>> g){
+    // debug display
     for (size_t i = 0; i < g.size(); i++){
         for (size_t j = 0; j < g.size(); j++){
             cout << g.at(i).at(j) << "  ";
@@ -45,7 +47,7 @@ vector<vector<int>> destructGrid(vector<vector<int>> g, int& score) {
     vector<vector<bool>> mask(n, vector<bool>(n, false));
     vector<vector<int>> ret(n, vector<int>(n, 0));  
     
-    // checking if they are 3 next to each other on each lines
+    // checking if they are 3 next to each other on each rows
     for (size_t i = 1; i < n - 1; i++) { 
         for (size_t j = 0; j < n; j++) {
             if (g[i][j] == g[i + 1][j] && g[i][j] == g[i - 1][j]) {
@@ -106,13 +108,13 @@ vector<vector<int>> fallGrid(vector<vector<int>> g) {
 
 vector<vector<int>> fillGrid(vector<vector<int>> g){
     int n = g.size();
-    
+    // fill grid
     vector<vector<int>> ret(n, vector<int>(n, 0)); 
     
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             if( g[i][j] == 0){
-                ret[i][j] = getRandomInt(COLORMINID,COLORMAXID);
+                ret[i][j] = getRandomInt(COLORMINID,COLORMAXID); // zero element represent empty element 
             } else {
                 ret[i][j] = g[i][j];
             }

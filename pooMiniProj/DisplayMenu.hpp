@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+// Author : Conrad
+
 enum class MenuOption {
     Continue,
     PlayNewGame,
@@ -16,12 +18,9 @@ class DisplayMenu
 private:
     sf::Font font;
 
-    sf::Color intToSFMLColor(int colorCode);
-
 public:
     DisplayMenu();
     ~DisplayMenu();
-
     MenuOption displayMenu(sf::RenderWindow& window);
     void displayScoreAndGameOver(sf::RenderWindow& window, int score, bool gameOver);
 };

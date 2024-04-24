@@ -7,9 +7,12 @@
 #include "GridDisplay.hpp"
 #include "grille.hpp"
 #include "DisplayMenu.hpp"
+
+
+
+// Author : Conrad
+
 enum State {INMENU, INGAME, NONE};
-
-
 struct GameData {
     std::vector<std::vector<int>> g;  
     int score;                         
