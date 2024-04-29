@@ -76,6 +76,7 @@ void app::playmenu()
         break;
     default:
         std::cout << "Unknown option selected" << std::endl;
+        window->close();
         break;
     }
 }
